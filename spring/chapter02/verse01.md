@@ -162,7 +162,7 @@ public class CalculatorLogImpl implements Calculator {
 
 ### ②解决思路
 
-解决这两个问题，核心就是：解耦。我们需要把附加功能从业务功能代码中抽取出来。
+解决这两个问题，核心就是：<span style="color:blue;font-weight:bold;">解耦</span>。我们需要把附加功能从业务功能代码中抽取出来。
 
 
 

@@ -3,7 +3,26 @@
 
 # 第五节 基于注解的AOP
 
-## 1、基于注解的AOP用到的技术
+
+
+## 1、AOP概念介绍
+
+### ①名词解释
+
+AOP：Aspect Oriented Programming面向切面编程
+
+
+
+### ②AOP的作用
+
+下面两点是同一件事的两面，一枚硬币的两面：
+
+- 简化代码：把方法中固定位置的重复的代码<span style="color:blue;font-weight:bold;">抽取</span>出来，让被抽取的方法更专注于自己的核心功能，提高内聚性。
+- 代码增强：把特定的功能封装到切面类中，看哪里有需要，就往上套，被<span style="color:blue;font-weight:bold;">套用</span>了切面逻辑的方法就被切面给增强了。
+
+
+
+## 2、基于注解的AOP用到的技术
 
 ![images](images/img006.png)
 
@@ -13,193 +32,27 @@
 
 
 
-## 2、加入依赖
+## 3、实验操作
 
-```xml
-    <dependencies>
-        <!-- 基于Maven依赖传递性，导入spring-context依赖即可导入当前所需所有jar包 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.3.1</version>
-        </dependency>
-        <!-- spring-aspects会帮我们传递过来aspectjweaver -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>5.3.1</version>
-        </dependency>
-        <!-- Spring的测试包 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.3.1</version>
-        </dependency>
-        <!-- junit测试 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-```
+[实验一 初步实现](verse05/experiment01.html)
+
+[实验二 各个通知获取细节信息](verse05/experiment02.html)
+
+[实验三 重用切入点表达式](verse05/experiment03.html)
+
+[实验四 切入点表达式语法](verse05/experiment04.html)
+
+[实验五 环绕通知](verse05/experiment05.html)
+
+[实验六 切面的优先级](verse05/experiment06.html)
+
+[实验七 没有接口的情况](verse05/experiment07.html)
 
 
 
-## 3、准备被代理的目标资源
+## 4、小结
 
-### ①接口
-
-```java
-public interface Calculator {
-    
-    int add(int i, int j);
-    
-    int sub(int i, int j);
-    
-    int mul(int i, int j);
-    
-    int div(int i, int j);
-    
-}
-```
-
-
-
-### ②纯净的实现类
-
-在Spring环境下工作，所有的一切都必须放在IOC容器中。现在接口的实现类是AOP要代理的目标类，所以它也必须放入IOC容器。
-
-```java
-package com.atguigu.aop.imp;
-    
-import com.atguigu.aop.api.Calculator;
-import org.springframework.stereotype.Component;
-    
-@Component
-public class CalculatorPureImpl implements Calculator {
-    
-    @Override
-    public int add(int i, int j) {
-    
-        int result = i + j;
-    
-        System.out.println("方法内部 result = " + result);
-    
-        return result;
-    }
-    
-    @Override
-    public int sub(int i, int j) {
-    
-        int result = i - j;
-    
-        System.out.println("方法内部 result = " + result);
-    
-        return result;
-    }
-    
-    @Override
-    public int mul(int i, int j) {
-    
-        int result = i * j;
-    
-        System.out.println("方法内部 result = " + result);
-    
-        return result;
-    }
-    
-    @Override
-    public int div(int i, int j) {
-    
-        int result = i / j;
-    
-        System.out.println("方法内部 result = " + result);
-    
-        return result;
-    }
-}
-```
-
-
-
-## 4、创建切面类
-
-```java
-// @Aspect表示这个类是一个切面类
-@Aspect
-// @Component注解保证这个切面类能够放入IOC容器
-@Component
-public class LogAspect {
-        
-    // @Before注解：声明当前方法是前置通知方法
-    // value属性：指定切入点表达式，由切入点表达式控制当前通知方法要作用在哪一个目标方法上
-    @Before(value = "execution(public int com.atguigu.aop.api.Calculator.add(int,int))")
-    public void printLogBeforeCore() {
-        System.out.println("[AOP前置通知] 方法开始了");
-    }
-    
-    @AfterReturning(value = "execution(public int com.atguigu.aop.api.Calculator.add(int,int))")
-    public void printLogAfterSuccess() {
-        System.out.println("[AOP返回通知] 方法成功返回了");
-    }
-    
-    @AfterThrowing(value = "execution(public int com.atguigu.aop.api.Calculator.add(int,int))")
-    public void printLogAfterException() {
-        System.out.println("[AOP异常通知] 方法抛异常了");
-    }
-    
-    @After(value = "execution(public int com.atguigu.aop.api.Calculator.add(int,int))")
-    public void printLogFinallyEnd() {
-        System.out.println("[AOP后置通知] 方法最终了");
-    }
-    
-}
-```
-
-
-
-## 5、创建Spring的配置文件
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-    
-    <!-- 开启基于注解的AOP功能 -->
-    <aop:aspectj-autoproxy/>
-    
-    <!-- 配置自动扫描的包 -->
-    <context:component-scan base-package="com.atguigu.aop"/>
-    
-</beans>
-```
-
-
-
-## 6、测试
-
-```java
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = {"classpath:applicationContext.xml"})
-public class AOPTest {
-    
-    @Autowired
-    private Calculator calculator;
-    
-    @Test
-    public void testAnnotationAOP() {
-    
-        int add = calculator.add(10, 2);
-        System.out.println("方法外部 add = " + add);
-    
-    }
-    
-}
-```
+![images](images/img015.png)
 
 
 

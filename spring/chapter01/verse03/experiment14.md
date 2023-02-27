@@ -167,13 +167,71 @@ public interface FactoryBean<T> {
 
 ## 2、实现FactoryBean接口
 
+```java
+// 实现FactoryBean接口时需要指定泛型
+// 泛型类型就是当前工厂要生产的对象的类型
+public class HappyFactoryBean implements FactoryBean<HappyMachine> {
+    
+    private String machineName;
+    
+    public String getMachineName() {
+        return machineName;
+    }
+    
+    public void setMachineName(String machineName) {
+        this.machineName = machineName;
+    }
+    
+    @Override
+    public HappyMachine getObject() throws Exception {
+    
+        // 方法内部模拟创建、设置一个对象的复杂过程
+        HappyMachine happyMachine = new HappyMachine();
+    
+        happyMachine.setMachineName(this.machineName);
+    
+        return happyMachine;
+    }
+    
+    @Override
+    public Class<?> getObjectType() {
+    
+        // 返回要生产的对象的类型
+        return HappyMachine.class;
+    }
+}
+```
+
 
 
 ## 3、配置bean
 
+```xml
+<!-- 实验十四 FactoryBean机制 -->
+<!-- 这个bean标签中class属性指定的是HappyFactoryBean，但是将来从这里获取的bean是HappyMachine对象 -->
+<bean id="happyMachine3" class="com.atguigu.ioc.factory.HappyFactoryBean">
+    <!-- property标签仍然可以用来通过setXxx()方法给属性赋值 -->
+    <property name="machineName" value="iceCreamMachine"/>
+</bean>
+```
+
 
 
 ## 4、测试获取bean
+
+- 配置的bean：HappyFactoryBean
+- 获取bean后得到的bean：HappyMachine
+
+```java
+@Test
+public void testExperiment14() {
+    HappyMachine happyMachine3 = (HappyMachine) iocContainer.getBean("happyMachine3");
+    
+    String machineName = happyMachine3.getMachineName();
+    
+    System.out.println("machineName = " + machineName);
+}
+```
 
 
 
