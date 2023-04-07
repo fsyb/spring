@@ -123,5 +123,29 @@
     document.head.appendChild(script);
     // showCityInfo();
 </script>
+
+<script>
+    window.init = function () { 
+            let geolocation = new BMap.Geolocation()
+        geolocation.getCurrentPosition(function (r){
+          console.log(r);
+          alert("百度")
+          alert(this.getStatus())
+          alert(JSON.stringify(r))
+        }, {
+          // 指示浏览器获取高精度的位置，默认为false
+          enableHighAccuracy: true,
+          // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+          timeout: 3000,
+          // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+          maximumAge: 0
+        })
+    }
+    var script1 = document.createElement("script");
+    script1.type = "text/javascript";
+    script1.src = "https://api.map.baidu.com/api?v=2.0&ak=itxK6YP7wPbjXx55yhw7PdQ14HRVawPk&callback=init";
+    // script1.onerror = reject;
+    document.head.appendChild(script1);
+</script>
 </body>
 </html>
