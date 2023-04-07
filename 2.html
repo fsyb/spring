@@ -24,23 +24,23 @@
         securityJsCode:'3bd03e9462f71e3e8107758c757e58a7'
         }
     //获取用户所在城市信息
-    function showCityInfo() {
-        //实例化城市查询类
-        var citysearch = new AMap.CitySearch();
-        //自动获取用户IP，返回当前城市
-        citysearch.getLocalCity(function(status, result) {
-          console.log(1,status, result)
-            if (status === 'complete' && result.info === 'OK') {
-                if (result && result.city && result.bounds) {
-                    var cityinfo = result.city;
-                    var citybounds = result.bounds;
-                    document.getElementById('info').innerHTML = '您当前所在城市：'+cityinfo;
-                    //地图显示当前城市
-                }
-            } else {
-            }
-        });
-    }
+    // function showCityInfo() {
+    //     //实例化城市查询类
+    //     var citysearch = new AMap.CitySearch();
+    //     //自动获取用户IP，返回当前城市
+    //     citysearch.getLocalCity(function(status, result) {
+    //       console.log(1,status, result)
+    //         if (status === 'complete' && result.info === 'OK') {
+    //             if (result && result.city && result.bounds) {
+    //                 var cityinfo = result.city;
+    //                 var citybounds = result.bounds;
+    //                 document.getElementById('info').innerHTML = '您当前所在城市：'+cityinfo;
+    //                 //地图显示当前城市
+    //             }
+    //         } else {
+    //         }
+    //     });
+    // }
 
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -82,7 +82,7 @@
             timeout: 3000,
             // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
             // maximumAge: 1200000,
-            noIpLocate:0,
+            // noIpLocate:0,
             // GeoLocationFirst:true,
             // noGeoLocation:3,
             // extensions:all
@@ -90,11 +90,18 @@
           // debugger
           // mapObj.addControl(geolocation);
           // alert(geolocation.isSupported())
-          geolocation.getCurrentPosition((status,result)=>{
-            console.log(status,result);
-            alert(status)
-            alert(JSON.stringify(result))
-          });
+        //   geolocation.getCurrentPosition((status,result)=>{
+        //     console.log(status,result);
+        //     alert(status)
+        //     alert(JSON.stringify(result))
+        //   });
+
+          geolocation.getCityInfo((status,result)=>{
+                console.log(status,result,"geolocation.getCityInfo");
+                // alert(status)
+                alert("geolocation.getCityInfo")
+                alert(JSON.stringify(result))
+              })
           // let a=geolocation.getCityInfo((status,result)=>{
           //   console.log(status,result);
           //   alert(status)
