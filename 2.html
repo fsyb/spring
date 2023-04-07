@@ -73,7 +73,7 @@
           
         // })
         AMap.plugin([
-          'AMap.Geolocation',
+          'AMap.Geolocation','AMap.CitySearch'
       ], function(){
           let geolocation = new AMap.Geolocation({
             // 指示浏览器获取高精度的位置，默认为false
@@ -107,6 +107,20 @@
           //   alert(status)
           //   alert(JSON.stringify(result))
           // })
+
+          var citysearch = new AMap.CitySearch();
+          //自动获取用户IP，返回当前城市
+          citysearch.getLocalCity((status, result)=>{
+            console.log(status,result,"AMap.CitySearch");
+            
+            alert("ip")
+            alert(JSON.stringify(result))
+            // this.getImgABinfo()
+            // if (status === 'complete' && result.info === 'OK') {
+    
+            // }
+              
+          });
           console.log(geolocation,a);
           // AMap.event.addListener(geolocation, 'complete', (...a)=>{
           //   console.log(a)
