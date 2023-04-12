@@ -46,32 +46,6 @@
     script.type = "text/javascript";
     script.src = "https://webapi.amap.com/maps?v=1.4.15&key=91556b12cc538a8c751b9514d864c078" 
     script.onload = function () {
-      console.log(AMap,AMap.Geolocation) 
-    //   resolve(AMap)
-
-    
-        // AMap.plugin([
-        //   'AMap.CitySearch',
-        // ],()=>{
-        //     var citysearch = new AMap.CitySearch();
-        //     //自动获取用户IP，返回当前城市
-        //     console.log(citysearch);
-        //     citysearch.getLocalCity(function(status, result) {
-        //     console.log(1,status, result)
-        //         if (status === 'complete' && result.info === 'OK') {
-        //             if (result && result.city && result.bounds) {
-        //                 var cityinfo = result.city;
-        //                 var citybounds = result.bounds;
-        //                 document.getElementById('info').innerHTML = '您当前所在城市：'+cityinfo;
-        //                 //地图显示当前城市
-        //             }
-        //         } else {
-        //         }
-        //     },(a,b)=>{
-        //         console.log(a,b);
-        //     });
-          
-        // })
         AMap.plugin([
           'AMap.Geolocation','AMap.CitySearch'
       ], function(){
@@ -80,56 +54,55 @@
             enableHighAccuracy: true,
             // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
             timeout: 3000,
-            // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-            // maximumAge: 1200000,
-            // noIpLocate:0,
-            // GeoLocationFirst:true,
-            // noGeoLocation:3,
-            // extensions:all
+            maximumAge:0,
           });
-          // debugger
-          // mapObj.addControl(geolocation);
-          // alert(geolocation.isSupported())
-        //   geolocation.getCurrentPosition((status,result)=>{
-        //     console.log(status,result);
-        //     alert(status)
-        //     alert(JSON.stringify(result))
-        //   });
 
-          geolocation.getCityInfo((status,result)=>{
-                console.log(status,result,"geolocation.getCityInfo");
-                // alert(status)
-                alert("geolocation.getCityInfo")
-                alert(JSON.stringify(result))
-              })
-          // let a=geolocation.getCityInfo((status,result)=>{
-          //   console.log(status,result);
-          //   alert(status)
-          //   alert(JSON.stringify(result))
-          // })
-
-          var citysearch = new AMap.CitySearch();
-          //自动获取用户IP，返回当前城市
-          citysearch.getLocalCity((status, result)=>{
-            console.log(status,result,"AMap.CitySearch");
+          geolocation.getCurrentPosition((status,r)=>{
+            // console.log(status,r);
+            alert(JSON.stringify(r))
+            if (status=="complete") {
+              // this.$set(this.locationInfo,'latitude',r.position.lat)
+              // this.$set(this.locationInfo,'longitude',r.position.lng)
+              // this.$set(this.locationInfo,'province',r.addressComponent.province)
+              // this.$set(this.locationInfo,'city',r.addressComponent.city)
+              // this.$set(this.locationInfo,'district',r.addressComponent.district)
+              // this.$set(this.locationInfo,'vehicleInspectionCode','')
+              // this.$set(this.locationInfo,'now','')
+              // this.$set(this.locationInfo,'salerMessage','')
+            }else{
+              // var citysearch = new AMap.CitySearch();
+              // //自动获取用户IP，返回当前城市
+              // citysearch.getLocalCity((status, result)=>{
+              //   alert(JSON.stringify(result))
+              //   if (status === 'complete' && result.info === 'OK') {
+              //     let {lat,lng}= result.bounds.getCenter()
+              //     this.$set(this.locationInfo,'latitude',lat)
+              //     this.$set(this.locationInfo,'longitude',lng)
+              //     this.$set(this.locationInfo,'province',result.province)
+              //     this.$set(this.locationInfo,'city',result.city)
+              //     this.$set(this.locationInfo,'district','')
+              //     this.$set(this.locationInfo,'vehicleInspectionCode','')
+              //     this.$set(this.locationInfo,'now','')
+              //     this.$set(this.locationInfo,'salerMessage','')
+              //   }
+              // });
+            }
+          });
+          // geolocation.getCityInfo((status,result)=>{
+          //       console.log(status,result,"geolocation.getCityInfo");
+          //       // alert(status)
+          //       alert("geolocation.getCityInfo")
+          //       alert(JSON.stringify(result))
+          //     })
+          // var citysearch = new AMap.CitySearch();
+          // //自动获取用户IP，返回当前城市
+          // citysearch.getLocalCity((status, result)=>{
+          //   console.log(status,result,"AMap.CitySearch");
             
-            alert("ip")
-            alert(JSON.stringify(result))
-            // this.getImgABinfo()
-            // if (status === 'complete' && result.info === 'OK') {
-    
-            // }
-              
-          });
-          console.log(geolocation,a);
-          // AMap.event.addListener(geolocation, 'complete', (...a)=>{
-          //   console.log(a)
-          //   alert(JSON.stringify(a[0]))
-          // });//返回定位信息
-          // AMap.event.addListener(geolocation, 'error', (e)=>{
-          //   console.log(e)
-          //   alert(JSON.stringify(e))
-          // });      //返回定位出错信息
+          //   alert("ip")
+          //   alert(JSON.stringify(result))              
+          // });
+          // console.log(geolocation,a);
       });
 
 
@@ -138,7 +111,7 @@
     // showCityInfo();
 </script>
 
-<script>
+<!-- <script>
     window.init = function () { 
             let geolocation = new BMap.Geolocation()
         geolocation.getCurrentPosition(function (r){
@@ -160,6 +133,6 @@
     script1.src = "https://api.map.baidu.com/api?v=2.0&ak=itxK6YP7wPbjXx55yhw7PdQ14HRVawPk&callback=init";
     // script1.onerror = reject;
     document.head.appendChild(script1);
-</script>
+</script> -->
 </body>
 </html>
