@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>根据ip定位</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/> 
+    <style type="text/css">
+       html,body,#container{
+           height:100%;
+       }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<div class="info">
+    <p id='info'></p>
+</div>
+<!-- <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=91556b12cc538a8c751b9514d864c078"></script> -->
+<script type="text/javascript">
+    // window._AMapSecurityConfig = {
+    //     serviceHost:'https://www.china-dt.com/_AMapService',  
+    //     securityJsCode:'3bd03e9462f71e3e8107758c757e58a7'
+    //     }
+    //获取用户所在城市信息
+    // function showCityInfo() {
+    //     //实例化城市查询类
+    //     var citysearch = new AMap.CitySearch();
+    //     //自动获取用户IP，返回当前城市
+    //     citysearch.getLocalCity(function(status, result) {
+    //       console.log(1,status, result)
+    //         if (status === 'complete' && result.info === 'OK') {
+    //             if (result && result.city && result.bounds) {
+    //                 var cityinfo = result.city;
+    //                 var citybounds = result.bounds;
+    //                 document.getElementById('info').innerHTML = '您当前所在城市：'+cityinfo;
+    //                 //地图显示当前城市
+    //             }
+    //         } else {
+    //         }
+    //     });
+    // }
+
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://webapi.amap.com/maps?v=1.4.15&key=636ced248a5e000952c3935269db97b2" 
+    script.onload = function () {
+        AMap.plugin([
+          'AMap.Geolocation','AMap.CitySearch'
+      ], function(){
+          let geolocation = new AMap.Geolocation({
+            // 指示浏览器获取高精度的位置，默认为false
+            enableHighAccuracy: true,
+            // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+            timeout: 3000,
+            maximumAge:0,
+          });
+
+          geolocation.getCurrentPosition((status,r)=>{
+            console.log(status,r);
+            alert(JSON.stringify(r))
+            if (status=="complete") {
+              // this.$set(this.locationInfo,'latitude',r.position.lat)
+              // this.$set(this.locationInfo,'longitude',r.position.lng)
+              // this.$set(this.locationInfo,'province',r.addressComponent.province)
+              // this.$set(this.locationInfo,'city',r.addressComponent.city)
+              // this.$set(this.locationInfo,'district',r.addressComponent.district)
+              // this.$set(this.locationInfo,'vehicleInspectionCode','')
+              // this.$set(this.locationInfo,'now','')
+              // this.$set(this.locationInfo,'salerMessage','')
+            }else{
+              // var citysearch = new AMap.CitySearch();
+              // //自动获取用户IP，返回当前城市
+              // citysearch.getLocalCity((status, result)=>{
+              //   alert(JSON.stringify(result))
+              //   if (status === 'complete' && result.info === 'OK') {
+              //     let {lat,lng}= result.bounds.getCenter()
+              //     this.$set(this.locationInfo,'latitude',lat)
+              //     this.$set(this.locationInfo,'longitude',lng)
+              //     this.$set(this.locationInfo,'province',result.province)
+              //     this.$set(this.locationInfo,'city',result.city)
+              //     this.$set(this.locationInfo,'district','')
+              //     this.$set(this.locationInfo,'vehicleInspectionCode','')
+              //     this.$set(this.locationInfo,'now','')
+              //     this.$set(this.locationInfo,'salerMessage','')
+              //   }
+              // });
+            }
+          });
+          // geolocation.getCityInfo((status,result)=>{
+          //       console.log(status,result,"geolocation.getCityInfo");
+          //       // alert(status)
+          //       alert("geolocation.getCityInfo")
+          //       alert(JSON.stringify(result))
+          //     })
+          // var citysearch = new AMap.CitySearch();
+          // //自动获取用户IP，返回当前城市
+          // citysearch.getLocalCity((status, result)=>{
+          //   console.log(status,result,"AMap.CitySearch");
+            
+          //   alert("ip")
+          //   alert(JSON.stringify(result))              
+          // });
+          // console.log(geolocation,a);
+      });
+
+
+    }
+    document.head.appendChild(script);
+    // showCityInfo();
+</script>
+
+<!-- <script>
+    window.init = function () { 
+            let geolocation = new BMap.Geolocation()
+        geolocation.getCurrentPosition(function (r){
+          console.log(r);
+          alert("百度")
+          alert(this.getStatus())
+          alert(JSON.stringify(r))
+        }, {
+          // 指示浏览器获取高精度的位置，默认为false
+          enableHighAccuracy: true,
+          // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+          timeout: 3000,
+          // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+          maximumAge: 0
+        })
+    }
+    var script1 = document.createElement("script");
+    script1.type = "text/javascript";
+    script1.src = "https://api.map.baidu.com/api?v=2.0&ak=itxK6YP7wPbjXx55yhw7PdQ14HRVawPk&callback=init";
+    // script1.onerror = reject;
+    document.head.appendChild(script1);
+</script> -->
+</body>
+</html>
