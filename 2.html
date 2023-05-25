@@ -44,7 +44,7 @@
 
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = "https://webapi.amap.com/maps?v=1.4.15&key=91556b12cc538a8c751b9514d864c078" 
+    script.src = "https://webapi.amap.com/maps?v=2.0&key=91556b12cc538a8c751b9514d864c078" 
     script.onload = function () {
         AMap.plugin([
           'AMap.Geolocation','AMap.CitySearch'
@@ -58,7 +58,7 @@
           });
 
           geolocation.getCurrentPosition((status,r)=>{
-            // console.log(status,r);
+            console.log(status,r);
             alert(JSON.stringify(r))
             if (status=="complete") {
               // this.$set(this.locationInfo,'latitude',r.position.lat)
