@@ -21,7 +21,7 @@
 <script type="text/javascript">
     window._AMapSecurityConfig = {
         serviceHost:'https://www.china-dt.com/_AMapService',  
-        securityJsCode:'3bd03e9462f71e3e8107758c757e58a7'
+        // securityJsCode:'3bd03e9462f71e3e8107758c757e58a7'
         }
     //获取用户所在城市信息
     // function showCityInfo() {
@@ -44,7 +44,7 @@
 
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = "https://webapi.amap.com/maps?v=2.0&key=91556b12cc538a8c751b9514d864c078" 
+    script.src = "https://webapi.amap.com/maps?v=1.4.15&key=91556b12cc538a8c751b9514d864c078" 
     script.onload = function () {
       AMap.plugin([
       'AMap.Geolocation','AMap.CitySearch'
@@ -57,8 +57,7 @@
             // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
             timeout: 5000,
             // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-            maximumAge:0,
-            needAddress:true
+            maximumAge:0
           });
           geolocation.getCurrentPosition((status,r)=>{
             if (status=="complete"&&r.addressComponent) {
